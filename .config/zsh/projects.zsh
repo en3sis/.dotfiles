@@ -34,11 +34,12 @@ proj() {
     if [ -n "$TMUX" ]; then
         # We are already inside a tmux session
         tmux new-window -n "$window_name" "cd $project_path && nvim ."
+        #tmux new-window -n "$window_name" "cd $project_path && nvim ."
         # Set iTerm2 tab name
         printf "\033]0;%s\007" "$window_name"
     else
         # Not inside a tmux session, so start tmux and create a new window
-        tmux new-session -d -s "$project_name" -n "$window_name" -c "$project_path"
+        tmux new-session -d -s "$project_name" -c "$project_path"
         tmux send-keys -t "$project_name:$window_name" 'nvim .' C-m
         tmux attach-session -t "$project_name"
         # Set iTerm2 tab name
