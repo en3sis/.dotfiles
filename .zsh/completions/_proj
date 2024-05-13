@@ -1,0 +1,16 @@
+#compdef proj
+
+_proj() {
+    local projects_dir="$HOME/Documents/Projects"
+    local -a projects
+
+    if [[ -d "$projects_dir" ]]; then
+        projects=("${(@f)$(ls -d "$projects_dir"/*(/))##*/}")
+    fi
+
+    if [[ $CURRENT -eq 2 ]]; then
+        _describe 'projects' projects
+    fi
+}
+
+_proj "$@"
