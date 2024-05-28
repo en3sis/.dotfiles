@@ -1,30 +1,36 @@
 # Amazon Q pre block. Keep at the top of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+
+eval "$(starship init zsh)"
+
+
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
+
 LANG=en_US.UTF-8
 #zmodload zsh/zprof
-# defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
-# defaults write -g KeyRepeat -int 1.2 # normal minimum is 2 (30 ms)
-defaults write -g KeyRepeat -int 2
-defaults write -g InitialKeyRepeat -int 15
+
 # CodeWhisperer pre block. Keep at the top of this filemaybe.
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+#export ZSH="$HOME/.oh-my-zsh"
 # export DOCKER_HOST=unix://"$HOME/.docker/run/docker.sock"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+#ZSH_THEME="robbyrussell"
 #ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
-ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+#ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -80,14 +86,45 @@ ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(yarn docker-compose git zsh-autosuggestions colorize zsh-syntax-highlighting) 
-#plugins=(yarn docker-compose git zsh-autosuggestions kubectl colorize zsh-syntax-highlighting) 
+plugins=(yarn docker-compose git colorize) 
+#plugins=(yarn docker-compose git zsh-autosuggestions kubectl colorize zsh-syntax-highlighting)
 #zsh-npm-scripts-autocomplete
 
-source $ZSH/oh-my-zsh.sh
+# User defined plugins
+zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-history-substring-search
+# oh-my-zsh plugins
+zi snippet OMZP::git
+zi snippet OMZP::yarn
+
+# User configuration 
+# 1. History configuration
+#HISTFILE="$HOME/.zhistory"
+HISTSIZE=5000
+SAVEHIST=$HISTSIZE 
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_find_no_dups
+zstyle ':completion:*'matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+
+#source $ZSH/oh-my-zsh.sh
 # Change color of the suggestion
 #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
 
+# defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+# defaults write -g KeyRepeat -int 1.2 # normal minimum is 2 (30 ms)
+defaults write -g KeyRepeat -int 2
+defaults write -g InitialKeyRepeat -int 15
+bindkey -v
+# accepts suggestionnn with ctrl y
+bindkey '^y' autosuggest-accept
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -101,32 +138,18 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
+alias ls='ls -la --color'
 alias zshconfig="nvim ~/.zshrc"
-alias nvimconfig="cd ~/.config/nvim && n . " 
+alias nvimconfig="cd ~/.config/nvim && n . "
 alias ohmyzsh="nvim ~/.oh-my-zsh"
-alias ghce='copilot explain'
-alias ghcs='copilot suggest'
 alias n='nvim'
 alias python='python3'
 alias pip='pip3'
 alias knownhosts='nvim ~/.ssh/known_hosts'
-alias projects='cd ~/Documents/Projects'
-alias playground='cd ~/Documents/Playground'
 alias watch='cargo watch -x run'
-alias ss="supabase start"
-alias ssp="supabase stop --no-backup"
-alias t="tmux"
 alias tmuxconfig="nvim ~/.tmux.conf"
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias cat='bat'
 #alias addspace="defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="small-spacer-tile";}'; killall '
 
 export NVM_DIR="$HOME/.nvm"
@@ -150,9 +173,9 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # Source multiple utils .env
 autoload -Uz compinit
 compinit
-source ~/.zsh/.env 
+source ~/.zsh/.env
 source ~/.config/zsh/projects.zsh
-# completitions 
+# completitions
 fpath=($HOME/.zsh/completions $fpath)
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
