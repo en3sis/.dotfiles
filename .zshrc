@@ -122,7 +122,7 @@ zstyle ':completion:*'matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:
 # defaults write -g KeyRepeat -int 1.2 # normal minimum is 2 (30 ms)
 defaults write -g KeyRepeat -int 2
 defaults write -g InitialKeyRepeat -int 15
-bindkey -v
+#bindkey -v
 # accepts suggestionnn with ctrl y
 bindkey '^y' autosuggest-accept
 # User configuration
@@ -132,11 +132,11 @@ bindkey '^y' autosuggest-accept
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+ export EDITOR='vim'
+else
+ export EDITOR='nvim'
+fi
 
 alias ls='ls -la --color'
 alias zshconfig="nvim ~/.zshrc"
@@ -179,11 +179,11 @@ source ~/.config/zsh/projects.zsh
 fpath=($HOME/.zsh/completions $fpath)
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
-eval $(thefuck --alias)
-:only() {
-  PROG='!'"/^$$|ack/&&/$(basename $SHELL)"'$/{print$2}'
-  ps -ao pid,ppid,comm= | awk "$PROG" | xargs kill
-}
+#eval $(thefuck --alias)
+#:only() {
+#  PROG='!'"/^$$|ack/&&/$(basename $SHELL)"'$/{print$2}'
+#  ps -ao pid,ppid,comm= | awk "$PROG" | xargs kill
+#}
 
 if [[ "$SHELL" == *zsh ]]; then
   zle -N :only
@@ -192,6 +192,5 @@ if [[ "$SHELL" == *zsh ]]; then
 fi
 
 # zprofexport PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
