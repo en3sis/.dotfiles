@@ -5,8 +5,7 @@ config:
   icon-position: "left" # show the icon to the "left" or "right" of the window name (defaults to left)
 
 icons:
-  zsh: "" # overwrite with your own symbol (Nerd Font icon, emoji, whatever!)
+  #zsh: "" # overwrite with your own symbol (Nerd Font icon, emoji, whatever!)
   vim: "" # overwrite with your own symbol (Nerd Font icon, emoji, whatever!)
   nvim: "" # overwrite with your own symbol (Nerd Font icon, emoji, whatever!)
   n: "" # overwrite with your own symbol (Nerd Font icon, emoji, whatever!)
-  cmatrix: "🤯" # add new entries that aren't included

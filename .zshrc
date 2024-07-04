@@ -92,7 +92,7 @@ plugins=(yarn docker-compose git colorize)
 
 # User defined plugins
 zinit light zdharma/fast-syntax-highlighting
-zinit light zsh-users/zsh-autosuggestions
+#zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-history-substring-search
 # oh-my-zsh plugins
