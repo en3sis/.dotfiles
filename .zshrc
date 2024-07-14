@@ -91,7 +91,7 @@ plugins=(yarn docker-compose git colorize)
 #zsh-npm-scripts-autocomplete
 
 # User defined plugins
-zinit light zdharma/fast-syntax-highlighting
+zinit light z-shell/F-Sy-H
 #zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-history-substring-search
@@ -150,6 +150,8 @@ alias watch='cargo watch -x run'
 alias tmuxconfig="nvim ~/.tmux.conf"
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias cat='bat'
+alias infis='export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=fa970077-2a58-45de-914b-d64d8ef11159 --client-secret=$INFISICAL_API_KEY --plain --silent)'
+alias coder='ollama run deepseek-coder-v2'
 #alias addspace="defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="small-spacer-tile";}'; killall '
 
 export NVM_DIR="$HOME/.nvm"
