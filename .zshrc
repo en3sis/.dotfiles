@@ -133,7 +133,7 @@ bindkey '^y' autosuggest-accept
 # export LANG=en_US.UTF-8
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
- export EDITOR='vim'
+ export EDITOR='vi'
 else
  export EDITOR='nvim'
 fi
@@ -143,6 +143,7 @@ alias zshconfig="nvim ~/.zshrc"
 alias nvimconfig="cd ~/.config/nvim && n . "
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias n='nvim'
+alias vi='nvim'
 alias python='python3'
 alias pip='pip3'
 alias knownhosts='nvim ~/.ssh/known_hosts'
@@ -151,6 +152,7 @@ alias tmuxconfig="nvim ~/.tmux.conf"
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias cat='bat'
 alias infis='export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=fa970077-2a58-45de-914b-d64d8ef11159 --client-secret=$INFISICAL_API_KEY --plain --silent)'
+alias ls='eza -l -a --icons --group-directories-first'
 alias coder='ollama run deepseek-coder-v2'
 #alias addspace="defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="small-spacer-tile";}'; killall '
 
@@ -181,6 +183,8 @@ source ~/.config/zsh/projects.zsh
 fpath=($HOME/.zsh/completions $fpath)
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
+. "$HOME/.atuin/bin/env"
+eval "$(atuin init zsh)"
 #eval $(thefuck --alias)
 #:only() {
 #  PROG='!'"/^$$|ack/&&/$(basename $SHELL)"'$/{print$2}'
