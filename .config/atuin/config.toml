@@ -115,6 +115,9 @@ history_filter = [
   "^gco",
   "^ga",
   "^z",
+  "^npm",
+  "^pnpm",
+  "^open",
 ]
 ## needs to run atuin history prune to remove existing commands from history
 
@@ -204,16 +207,16 @@ enter_accept = true
 # common_prefix = ["sudo"]
 
 ## Set commands that will be completely ignored from stats
-ignored_commands = [
-   "cd",
-   "ls",
-   "vi",
-   "cp",
-   "clear",
-   "mkdir",
-   "rm",
-   "proj",
-]
+#ignored_commands = [
+#   "cd",
+#   "ls",
+#   "vi",
+#   "cp",
+#   "clear",
+#   "mkdir",
+#   "rm",
+#   "proj",
+#]
 
 [keys]
 # Defaults to true. If disabled, using the up/down key won't exit the TUI when scrolled past the first/last entry.

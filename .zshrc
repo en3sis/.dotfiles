@@ -1,6 +1,5 @@
-# Amazon Q pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 eval "$(starship init zsh)"
 
 
@@ -127,6 +126,26 @@ defaults write -g InitialKeyRepeat -int 15
 bindkey '^y' autosuggest-accept
 # User configuration
 
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+#source ~/.1pwd-auth.sh
+#export ANTHROPIC_API_KEY="$(op read op://Development/Anthropic/credential --no-newline)"
+# Source multiple utils .env
+autoload -Uz compinit
+compinit
+source ~/.zsh/.env
+source ~/.config/zsh/projects.zsh
+# completitions
+fpath=($HOME/.zsh/completions $fpath)
+eval "$(zoxide init zsh)"
+eval "$(fzf --zsh)"
+. "$HOME/.atuin/bin/env"
+eval "$(atuin init zsh)"
+#eval $(thefuck --alias)
+#:only() {
+#  PROG='!'"/^$$|ack/&&/$(basename $SHELL)"'$/{print$2}'
+#  ps -ao pid,ppid,comm= | awk "$PROG" | xargs kill
+#}
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -138,7 +157,6 @@ else
  export EDITOR='nvim'
 fi
 
-alias ls='ls -la --color'
 alias zshconfig="nvim ~/.zshrc"
 alias nvimconfig="cd ~/.config/nvim && n . "
 alias ohmyzsh="nvim ~/.oh-my-zsh"
@@ -151,7 +169,7 @@ alias watch='cargo watch -x run'
 alias tmuxconfig="nvim ~/.tmux.conf"
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias cat='bat'
-alias infis='export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=fa970077-2a58-45de-914b-d64d8ef11159 --client-secret=$INFISICAL_API_KEY --plain --silent)'
+alias inf='export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=$INFISICAL_CLIENT_ID --client-secret=$INFISICAL_API_KEY --plain --silent)'
 alias ls='eza -l -a --icons --group-directories-first'
 alias coder='ollama run deepseek-coder-v2'
 #alias addspace="defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="small-spacer-tile";}'; killall '
@@ -173,23 +191,6 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-# Source multiple utils .env
-autoload -Uz compinit
-compinit
-source ~/.zsh/.env
-source ~/.config/zsh/projects.zsh
-# completitions
-fpath=($HOME/.zsh/completions $fpath)
-eval "$(zoxide init zsh)"
-eval "$(fzf --zsh)"
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh)"
-#eval $(thefuck --alias)
-#:only() {
-#  PROG='!'"/^$$|ack/&&/$(basename $SHELL)"'$/{print$2}'
-#  ps -ao pid,ppid,comm= | awk "$PROG" | xargs kill
-#}
 
 if [[ "$SHELL" == *zsh ]]; then
   zle -N :only
@@ -198,5 +199,7 @@ if [[ "$SHELL" == *zsh ]]; then
 fi
 
 # zprofexport PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"

@@ -1,7 +1,3 @@
-# ~/.config/zsh/zsh-functions.zsh
-
-# Function to open a project in Neovim inside a new tmux window, setting the window name to 'nvim' and project name
-
 proj() {
     local project_dir="$HOME/Documents/Projects"
 
@@ -27,21 +23,25 @@ proj() {
         return 1
     fi
 
-    # Define the window name combining 'nvim' and the project name
-    local window_name="nvim - ${project_name}"
+    # Generate a unique session name using the project name
+    local session_name="${project_name}"
+    echo "Opening project: $project_name"
 
-    # Create a new tmux window with the window name and open nvim in that directory
+    # Check if we're already inside a tmux session
     if [ -n "$TMUX" ]; then
-        # We are already inside a tmux session
-        tmux new-window -n "$window_name" "cd $project_path && nvim ."
-        # Set iTerm2 tab name
-        printf "\033]0;%s\007" "$window_name"
+        # We're inside a tmux session
+        # Create a new session without attaching to it
+        tmux new-session -d -s "$session_name" -c "$project_path"
+        # Set up the initial window
+        tmux send-keys -t "$session_name" "cd $project_path && nvim ." C-m
+        # Switch to the new session
+        tmux switch-client -t "$session_name"
     else
-        # Not inside a tmux session, so start tmux and create a new window
-        tmux new-session -d -s "$project_name" -n "$window_name" -c "$project_path"
-        tmux send-keys -t "$project_name:$window_name" 'nvim .' C-m
-        tmux attach-session -t "$project_name"
-        # Set iTerm2 tab name
-        printf "\033]0;%s\007" "$window_name"
+        # We're not inside a tmux session
+        # Create a new session and attach to it
+        tmux new-session -s "$session_name" -c "$project_path" "nvim ."
     fi
+
+    # Set iTerm2 tab name
+    printf "\033]0;%s\007" "nvim $session_name"
 }
