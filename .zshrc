@@ -1,5 +1,16 @@
 
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
+
+
+# Load environment variables
+if [ -f ~/.zsh/.env ]; then
+    set -a
+    source ~/.zsh/.env
+    set +a
+else
+    echo "Warning: ~/.zsh/.env file not found"
+fi
+
 eval "$(starship init zsh)"
 
 
@@ -132,7 +143,6 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # Source multiple utils .env
 autoload -Uz compinit
 compinit
-source ~/.zsh/.env
 source ~/.config/zsh/projects.zsh
 # completitions
 fpath=($HOME/.zsh/completions $fpath)
@@ -145,6 +155,7 @@ eval "$(atuin init zsh)"
 #  PROG='!'"/^$$|ack/&&/$(basename $SHELL)"'$/{print$2}'
 #  ps -ao pid,ppid,comm= | awk "$PROG" | xargs kill
 #}
+
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
